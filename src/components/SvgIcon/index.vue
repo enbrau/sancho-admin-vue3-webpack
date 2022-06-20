@@ -1,50 +1,59 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconName" :fill="color" />
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-bind="$attrs" />
+  <svg v-else :class="svgClass" aria-hidden="true" v-bind="$attrs">
+    <use :href="iconName" />
   </svg>
 </template>
 
-<script setup>
-import { computed } from 'vue';
-const props = defineProps({
-  iconClass: {
-    type: String,
-    required: true
+<script>
+export default {
+  name: 'SvgIcon',
+  props: {
+    iconClass: {
+      type: String,
+      required: true
+    },
+    className: {
+      type: String,
+      default: ''
+    }
   },
-  className: {
-    type: String,
-    default: ''
-  },
-  color: {
-    type: String,
-    default: '#333'
+  computed: {
+    isExternal() {
+      return /^(https?:|mailto:|tel:)/.test(this.iconClass)
+    },
+    iconName() {
+      return `#icon-${this.iconClass}`
+    },
+    svgClass() {
+      if (this.className) {
+        return 'svg-icon ' + this.className
+      } else {
+        return 'svg-icon'
+      }
+    },
+    styleExternalIcon() {
+      return {
+        mask: `url(${this.iconClass}) no-repeat 50% 50%`,
+        '-webkit-mask': `url(${this.iconClass}) no-repeat 50% 50%`
+      }
+    }
   }
-});
-const iconName = computed(() => {
-  return `#icon-${props.iconClass}`;
-});
-const svgClass = computed(() => {
-  if (props.className) {
-    return `svg-icon ${props.className}`;
-  }
-  return 'svg-icon';
-});
+}
 </script>
 
-<style scope lang="scss">
-.sub-el-icon,
-.nav-icon {
-  display: inline-block;
-  font-size: 15px;
-  margin-right: 12px;
-  position: relative;
-}
-
+<style scoped>
 .svg-icon {
   width: 1em;
   height: 1em;
-  position: relative;
-  fill: currentColor;
-  vertical-align: -2px;
+  vertical-align: -0.15em;
+  fill: currentColor !important;
+  overflow: hidden;
+}
+
+.svg-external-icon {
+  background-color: currentColor !important;
+  mask-size: cover!important;
+  display: inline-block;
 }
 </style>
