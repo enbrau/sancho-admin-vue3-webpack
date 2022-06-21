@@ -1,8 +1,8 @@
 <template>
-  <div class="app-wrapper" :class="appStatus">
-    <side-bar v-if="!isMicroApp" />
+  <div v-if="!isMicroApp" class="app-wrapper" :class="appStatus">
+    <side-bar />
     <div class="view-container">
-      <div v-if="!isMicroApp" class="view-head">
+      <div class="view-head">
         <nav-bar />
         <tag-bar />
       </div>
@@ -15,6 +15,13 @@
         <div id="sancho-subapp-container" class="view-body-wrapper"></div>
       </div>
     </div>
+  </div>
+  <div v-else class="app-wrapper">
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" :key="undefined"  />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 
