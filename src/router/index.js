@@ -22,7 +22,7 @@ moduleFiles.keys().forEach((key) => {
   console.log(`[Sancho] Route loaded: ${moduleName}`)
 })
 
-const routes = [
+export const routes = [
   {
     path: '/redirect',
     component: Layout,

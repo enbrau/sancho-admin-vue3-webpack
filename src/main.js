@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import $router from '@/router'
+import $router, { routes } from '@/router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from '@/store'
 import i18n from '@/i18n'
 import components from '@/components'
@@ -19,10 +20,21 @@ import '@/utils/handle-window-resize.js'
 import '@/style/index.scss'
 
 let instance = null
-let router = $router
+let router = null
+let history = null
 
 function render(props = {}) {
   const { container } = props
+
+  if (!window.__POWERED_BY_QIANKUN__) {
+    router = $router
+  } else {
+    history = createWebHashHistory()
+    router = createRouter({
+      history,
+      routes
+    })
+  }
 
   instance = createApp(App)
     .use(router)
@@ -56,7 +68,10 @@ import { registerMicroApps, start } from 'qiankun'
 const apps = require('../sub-apps.js')
 if (apps.length > 0) {
   registerMicroApps(apps)
-  start()
+  start({
+    prefetch: 'all',
+    strictStyleIsolation: true
+  })
 }
 
 // run as independent application
@@ -74,7 +89,9 @@ export async function mount(props) {
 }
 export async function unmount() {
   instance.unmount()
+  instance._container.innerHTML = ''
   instance = null
   router = null
+  history.destroy()
   console.log('[vue] vue app unmounted')
 }
