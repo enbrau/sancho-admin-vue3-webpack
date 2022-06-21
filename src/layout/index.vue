@@ -12,17 +12,15 @@
             <component :is="Component" :key="undefined"  />
           </keep-alive>
         </router-view>
-        <div id="sancho-subapp-container" class="view-body-wrapper"></div>
+        <div id="sancho-subapp-container"></div>
       </div>
     </div>
   </div>
-  <div v-else class="app-wrapper">
-    <router-view v-slot="{ Component }">
-      <keep-alive>
-        <component :is="Component" :key="undefined"  />
-      </keep-alive>
-    </router-view>
-  </div>
+  <router-view v-else v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" :key="undefined"  />
+    </keep-alive>
+  </router-view>
 </template>
 
 <script>
