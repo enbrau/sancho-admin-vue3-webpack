@@ -122,6 +122,9 @@ module.exports = {
     static: __dirname + '/public/',
     host: '127.0.0.1',
     port: 9527,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
     setupMiddlewares: (middlewares, devServer) => {
       if (env.parsed.NODE_ENV === 'development') {
         mockServer(devServer.app)
