@@ -21,7 +21,6 @@ function registerRoutes(app) {
     let api = mocks[i]
     console.log('Mock added: [' + api.method + ']' + api.url)
     app[api.method](api.url, (req, res) => {
-      console.log('--->')
       res.header("Access-Control-Allow-Origin", "*");
       res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
       res.header("Access-Control-Allow-Headers", "X-Requested-With");

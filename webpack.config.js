@@ -4,19 +4,36 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const packageName = require('./package.json').name
 
 const env = require('dotenv').config({path: __dirname + `/.env.${process.env.NODE_ENV}`})
 const settings = require('./settings.js')
 
 const mockServer = require('./mock-server.js')
 
+const subApps = require('./sub-apps.js')
+const subAppProxy = {}
+for (const subApp of subApps) {
+  subAppProxy[subApp.contextPath] = {
+    target: subApp.entry.replace(subApp.contextPath + '/', ''),
+    changeOrigin: true,
+    ws: true,
+    secure: false,
+    logLevel: 'debug'
+  }
+}
+
 module.exports = {
   entry: './src/main.js',
   output: {
+    publicPath: '/',
     path: path.resolve(__dirname, './dist'),
-    filename: 'assets/[name].[contenthash].js',
-    chunkFilename: 'assets/bundle-[name].[contenthash].js',
-    assetModuleFilename: 'assets/[name][ext]'
+    library: `{packageName}-[name]`,
+    libraryTarget: 'umd',
+    chunkLoadingGlobal: `webpackJsonp_${packageName}`,
+    // filename: 'assets/[name].[contenthash].js',
+    // chunkFilename: 'assets/bundle-[name].[contenthash].js',
+    // assetModuleFilename: 'assets/[name][ext]'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -112,6 +129,7 @@ module.exports = {
       return middlewares
     },
     proxy: {
+      ...subAppProxy,
       [process.env.CONTEXT_PATH]: {
         target: process.env.HOST,
         changeOrigin: true,

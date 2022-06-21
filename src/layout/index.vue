@@ -1,17 +1,18 @@
 <template>
   <div class="app-wrapper" :class="appStatus">
-    <side-bar />
+    <side-bar v-if="!isMicroApp" />
     <div class="view-container">
-      <div class="view-head">
+      <div v-if="!isMicroApp" class="view-head">
         <nav-bar />
         <tag-bar />
       </div>
-      <div class="view-body" :style="{ height: viewBodyHeight + 'px' }">
+      <div class="view-body" :style="{ height: viewBodyHeight }">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" :key="undefined"  />
           </keep-alive>
         </router-view>
+        <div id="sancho-subapp-container" class="view-body-wrapper"></div>
       </div>
     </div>
   </div>
@@ -31,7 +32,10 @@ export default {
       }
     },
     viewBodyHeight() {
-      return this.$store.state.app.windowInnerHeight - 50 - 32 - 10
+      return this.isMicroApp ? '100%' : (this.$store.state.app.windowInnerHeight - 50 - 32 - 10) + 'px'
+    },
+    isMicroApp() {
+      return window.__POWERED_BY_QIANKUN__
     }
   },
 }

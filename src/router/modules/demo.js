@@ -1,4 +1,5 @@
 import Layout from '@/layout'
+import MicroApp from '@/views/micro-app.vue'
 
 export default [
   {
@@ -13,6 +14,12 @@ export default [
         component: () => import('@/views/demo/icons.vue'),
         isMenu: true,
         meta: { title: 'demo.menus.Icons', icon: 'icon-fill', noCache: true }
+      },
+      {
+        path: 'subapp1',
+        component: MicroApp,
+        isMenu: true,
+        meta: { title: 'demo.menus.MicroApp', icon: 'demo-fill', noCache: true },
       }
     ]
   }

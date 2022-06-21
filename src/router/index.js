@@ -43,7 +43,6 @@ const routes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    isMenu: true,
     children: [
       {
         path: 'dashboard',
