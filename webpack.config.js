@@ -15,7 +15,7 @@ const subApps = require('./sub-apps.js')
 const subAppProxy = {}
 for (const subApp of subApps) {
   subAppProxy[subApp.contextPath] = {
-    target: subApp.entry.replace(subApp.contextPath + '/', ''),
+    target: subApp.devEntry.replace(subApp.contextPath, ''),
     changeOrigin: true,
     ws: true,
     secure: false,
