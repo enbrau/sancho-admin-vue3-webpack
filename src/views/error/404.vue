@@ -4,7 +4,9 @@
     <span style="font-size: 3rem; line-height: 1.25em; font-weight: 500; color: var(--el-text-color-secondary);">
       {{$t('common.tips.page_not_found')}}
     </span><br>
-    <span v-html="$t('common.tips.page_not_found_solutions')" style="color: var(--el-text-color-secondary)">
+    <span style="color: var(--el-text-color-secondary)">
+      {{$t('common.tips.page_not_found_solutions')}}
+      <a href="mailto:admin@enbrau.com">admin@enbrau.com</a>
     </span>
   </div>
 </template>
