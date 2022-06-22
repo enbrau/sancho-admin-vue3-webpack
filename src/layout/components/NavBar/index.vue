@@ -34,6 +34,7 @@
 import Breadcrumb from './Breadcrumb.vue'
 import tools from './tools.js'
 import actions from './actions.js'
+import { ElLoading } from 'element-plus'
 
 export default {
   components: { Breadcrumb, ...tools, ...actions },
@@ -51,6 +52,21 @@ export default {
   methods: {
     toggleSidebar() {
       this.$store.dispatch('app/setSidebarMode', (this.isSideBarCollapse ? '' : 'collapse'))
+    },
+    async logout() {
+      const loading = ElLoading.service({
+        lock: true,
+        text: this.$t('common.tips.logging_out'),
+        background: 'rgba(0, 0, 0, 0.7)',
+      })
+      try {
+        await this.$store.dispatch('subscriber/logout')
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      } catch(e) {
+        loading.close()
+      }
     }
   }
 }
