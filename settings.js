@@ -10,6 +10,12 @@ module.exports = {
   title: 'Sancho Admin Vue3 (Webpack)',
 
   /**
+   * @type {string} TimeZone
+   * @description Application timeZone, null means use browser.
+   */
+  timeZone: 'Asia/Shanghai',
+
+  /**
    * @type {object} axios client settings
    */
   client: {
