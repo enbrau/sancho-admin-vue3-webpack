@@ -201,7 +201,7 @@ $cursor: #fff;
     width: 100%; 
     height: 100%; 
     overflow: hidden; 
-    // background: url('login.jpg'); 
+    background: url('login.jpg'); 
     background-repeat: repeat-y; 
     background-size: 100% auto;
   }
