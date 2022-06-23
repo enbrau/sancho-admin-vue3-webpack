@@ -1,0 +1,6 @@
+.el-tabs {
+  .el-tabs__item.is-right.is-active {
+    border-top-color: var(--el-border-color) !important;
+    border-bottom-color: var(--el-border-color) !important;
+  }
+}
