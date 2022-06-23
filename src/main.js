@@ -69,7 +69,6 @@ const apps = require('../sub-apps.js')
 if (apps.length > 0) {
   registerMicroApps(apps)
   start({
-    prefetch: 'all',
     strictStyleIsolation: true
   })
 }
