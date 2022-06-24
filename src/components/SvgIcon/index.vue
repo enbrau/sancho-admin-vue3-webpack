@@ -16,11 +16,15 @@ export default {
     className: {
       type: String,
       default: ''
+    },
+    external: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     isExternal() {
-      return /^(https?:|mailto:|tel:)/.test(this.iconClass)
+      return this.external || /^(https?:|mailto:|tel:)/.test(this.iconClass)
     },
     iconName() {
       return `#icon-${this.iconClass}`
