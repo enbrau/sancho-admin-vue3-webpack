@@ -28,13 +28,14 @@ module.exports = {
   output: {
     publicPath: '/',
     path: path.resolve(__dirname, './dist'),
-    library: `{packageName}-[name]`,
+    library: `${packageName}-[name]`,
     libraryTarget: 'umd',
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
-    // filename: 'assets/[name].[contenthash].js',
-    // chunkFilename: 'assets/bundle-[name].[contenthash].js',
-    // assetModuleFilename: 'assets/[name][ext]'
+    filename: '[name].[contenthash].js',
+    chunkFilename: 'bundle-[name].[contenthash].js',
+    assetModuleFilename: '[name][ext]'
   },
+  devtool: 'source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(env.parsed),
