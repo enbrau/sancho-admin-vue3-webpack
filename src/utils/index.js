@@ -58,6 +58,32 @@ export function setCookie(name,value){
   document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
 }
 
+export function expireAllCookies(name, paths) {
+  var expires = new Date(0).toUTCString();
+
+  // expire null-path cookies as well
+  document.cookie = name + '=; expires=' + expires;
+
+  for (var i = 0, l = paths.length; i < l; i++) {
+      document.cookie = name + '=; path=' + paths[i] + '; expires=' + expires;
+  }
+}
+
+export function expireActiveCookies(name) {
+  var pathname = location.pathname.replace(/\/$/, ''),
+      segments = pathname.split('/'),
+      paths = [];
+
+  for (var i = 0, l = segments.length, path; i < l; i++) {
+      path = segments.slice(0, i + 1).join('/');
+
+      paths.push(path);       // as file
+      paths.push(path + '/'); // as directory
+  }
+
+  expireAllCookies(name, paths);
+}
+
 export function clearCookies() {
   document.cookie.split(';').forEach(cookie => document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`))
 }

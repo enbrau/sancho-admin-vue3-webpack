@@ -1,7 +1,5 @@
-// import { getToken, setToken, removeToken, filterRoutes, SUPER_ADMIN } from '@/utils/framework'
-// import { fetchProfile, login, logout } from '@/api/subscriber'
 import { SESSION_STORAGE_KEYS, PERM_KEYS } from '@/consts'
-import { getCookie, setCookie, clearCookies } from '@/utils'
+import { getCookie, setCookie, expireActiveCookies } from '@/utils'
 import { filterRoutes } from '@/router'
 import settings from '@/../settings'
 import $api from '@/api'
@@ -94,7 +92,7 @@ const actions = {
             break
           case 'cookie':
           default:
-            clearCookies()
+            expireActiveCookies(settings.security.tokenKey.cookie)
             break
         }
         commit(SET_TOKEN, null)
