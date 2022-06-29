@@ -9,7 +9,7 @@
       <div class="view-body" :style="{ height: viewBodyHeight }">
         <router-view v-slot="{ Component }">
           <keep-alive>
-            <component :is="Component" :key="undefined"  />
+            <component :is="decideComponent(Component)" :key="undefined"  />
           </keep-alive>
         </router-view>
         <div id="sancho-subapp-container"></div>
@@ -18,7 +18,7 @@
   </div>
   <router-view v-else v-slot="{ Component }">
     <keep-alive>
-      <component :is="Component" :key="undefined"  />
+      <component :is="decideComponent(Component)" :key="undefined"  />
     </keep-alive>
   </router-view>
 </template>
@@ -27,6 +27,8 @@
 import NavBar from './components/NavBar/index.vue'
 import SideBar from './components/SideBar/index.vue'
 import TagBar from './components/TagBar/index.vue'
+import { markRaw } from '@vue/reactivity'
+import settings from '@/../settings.js'
 
 export default {
   components: { SideBar, NavBar, TagBar },
@@ -43,6 +45,16 @@ export default {
       return window.__POWERED_BY_QIANKUN__
     }
   },
+  methods: {
+    decideComponent(component) {
+      // 解决嵌套路由问题
+      if (settings.useNestedRoute || (this.$route.meta && !this.$route.meta.nested)) {
+        return markRaw(this.$route.matched[this.$route.matched.length - 1].components.default)
+      } else {
+        return component
+      }
+    }
+  }
 }
 </script>
 
