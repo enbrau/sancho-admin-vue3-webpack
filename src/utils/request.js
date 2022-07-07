@@ -1,6 +1,7 @@
 import axios from 'axios'
 import settings from '@/../settings.js'
-import { requestHook, responseHook, errorHook } from '@/hooks'
+import store from '@/store/index.js'
+import { requestHook, responseHook, errorHook } from '../hooks'
 
 const service = axios.create({
   baseURL: getBaseUrl(),
@@ -14,7 +15,8 @@ const service = axios.create({
 service.interceptors.request.use(
   request => {
     try {
-      requestHook.call(request)
+      const requestHooks = window.__SANCHO_HOOKS__ ? window.__SANCHO_HOOKS__.requestHook : requestHook
+      requestHooks.call(request)
       if (/get/i.test(request.method)) {
         request.params = { ...(request.params || {}), t: Date.parse(new Date())/1000 }
       }
@@ -25,30 +27,8 @@ service.interceptors.request.use(
   },
   error => {
     try {
-      errorHook.call(error)
-    } catch(e) {
-      console.error('Error handling request error: ', e)
-    }
-    return Promise.reject(error)
-  }
-)
-
-service.interceptors.request.use(
-  request => {
-    try {
-      requestHook.call(request)
-      if (/get/i.test(request.method)) {
-        request.params = { ...(request.params || {}), t: Date.parse(new Date())/1000 }
-      }
-      // TODO
-    } catch(e) {
-      console.error('Error handling request: ', e)
-    }
-    return request
-  },
-  error => {
-    try {
-      // TODO
+      const errorHooks = window.__SANCHO_HOOKS__ ? window.__SANCHO_HOOKS__.errorHook : errorHook
+      errorHooks.call(error)
     } catch(e) {
       console.error('Error handling request error: ', e)
     }
@@ -59,9 +39,11 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     try {
-      responseHook.call(response)
+      const responseHooks = window.__SANCHO_HOOKS__ ? window.__SANCHO_HOOKS__.responseHook : responseHook
+      responseHooks.call(response)
     } catch(e) {
-      errorHook.call(e)
+      const errorHooks = window.__SANCHO_HOOKS__ ? window.__SANCHO_HOOKS__.errorHook : errorHook
+      errorHooks.call(e)
     }
 
     const data = response.data
@@ -91,7 +73,8 @@ service.interceptors.response.use(
   },
   error => {
     try {
-      errorHook.call(error)
+      const errorHooks = window.__SANCHO_HOOKS__ ? window.__SANCHO_HOOKS__.errorHook : errorHook
+      errorHooks.call(error)
     } catch(e) {
       console.error('Error handling response error: ', e)
     }

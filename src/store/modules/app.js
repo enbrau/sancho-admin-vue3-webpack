@@ -7,6 +7,7 @@ const SET_WINDOW_INNER_WIDTH  = 'SET_WINDOW_INNER_WIDTH'
 const SET_LOCALE              = 'SET_LOCALE'
 const SET_THEME_MODE          = 'SET_THEME_MODE'
 const SET_SIDEBAR_MODE        = 'SET_SIDEBAR_MODE'
+const SET_STATE               = 'SET_STATE'
 
 const state = {
   windowInnerWidth: window.innerWidth,
@@ -34,6 +35,9 @@ const mutations = {
   [SET_SIDEBAR_MODE]: (state, sidebar) => {
     state.sidebar = sidebar
   },
+  [SET_STATE]: (state, newState) => {
+    Object.assign(state, newState)
+  }
 }
 
 const actions = {
@@ -54,6 +58,9 @@ const actions = {
     window.sessionStorage.setItem(SESSION_STORAGE_KEYS.SIDEBAR_MODE, sidebarMode)
     commit(SET_SIDEBAR_MODE, sidebarMode)
   },
+  setState({ commit }, newState) {
+    commit(SET_STATE, newState)
+  }
 }
 
 export default {

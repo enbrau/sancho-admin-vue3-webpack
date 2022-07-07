@@ -118,7 +118,7 @@ export default {
       return this.$store.state.layout.visitedViews
     },
     routes() {
-      return this.$store.state.subscriber.routes
+      return this.$store.state.layout.menus
     }
   },
   watch: {

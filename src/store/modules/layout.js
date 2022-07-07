@@ -1,3 +1,6 @@
+import { PERM_KEYS } from '@/consts'
+import { filterRoutes, filterMenus } from '@/router'
+
 const ADD_VISITED_VIEW         = 'ADD_VISITED_VIEW'
 const ADD_CACHED_VIEW          = 'ADD_CACHED_VIEW'
 const DEL_VISITED_VIEW         = 'DEL_VISITED_VIEW'
@@ -7,10 +10,12 @@ const DEL_OTHERS_CACHED_VIEWS  = 'DEL_OTHERS_CACHED_VIEWS'
 const DEL_ALL_VISITED_VIEWS    = 'DEL_ALL_VISITED_VIEWS'
 const DEL_ALL_CACHED_VIEWS     = 'DEL_ALL_CACHED_VIEWS'
 const UPDATE_VISITED_VIEW      = 'UPDATE_VISITED_VIEW'
+const SET_MENUS                = 'SET_MENUS'
 
 const state = {
   visitedViews: [],
-  cachedViews: []
+  cachedViews: [],
+  menus: []
 }
 
 const mutations = {
@@ -73,6 +78,9 @@ const mutations = {
         break
       }
     }
+  },
+  [SET_MENUS]: (state, menus) => {
+    state.menus = menus
   }
 }
 
@@ -155,6 +163,19 @@ const actions = {
   },
   updateVisitedView({ commit }, view) {
     commit(UPDATE_VISITED_VIEW, view)
+  },
+  updateMenus({ commit }, { routes, perms }) {
+    return new Promise(resolve => {
+      let accessibleRoutes
+      if (perms.includes(PERM_KEYS.SUPER_ADMIN)) {
+        accessibleRoutes = routes
+      } else {
+        accessibleRoutes = filterRoutes(routes, { perms })
+      }
+      const accessibleMenus = filterMenus(accessibleRoutes, { perms })
+      commit(SET_MENUS, accessibleMenus)
+      resolve(accessibleMenus)
+    })
   }
 }
 

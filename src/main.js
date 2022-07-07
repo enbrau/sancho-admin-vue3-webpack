@@ -59,17 +59,11 @@ function render(props = {}) {
 
   preloadHook.promise(instance).then(() => {
     instance.mount(container ? container.querySelector('#app') : '#app')
-    document.getElementsByClassName('loading-container')[0].style.display = 'none'
-  })
-}
-
-// run as main application
-import { registerMicroApps, start } from 'qiankun'
-const apps = require('../sub-apps.js')
-if (apps.length > 0) {
-  registerMicroApps(apps)
-  start({
-    strictStyleIsolation: true
+    if (container) {
+      container.getElementsByClassName('loading-container')[0].style.display = 'none'
+    } else {
+      document.getElementsByClassName('loading-container')[0].style.display = 'none'
+    }
   })
 }
 
@@ -79,11 +73,14 @@ if (!window.__POWERED_BY_QIANKUN__) {
 }
 
 // run as micro application
+import actions from '@/store/actions.js'
+
 export async function bootstrap() {
   console.log('[vue] vue app bootstraped');
 }
 export async function mount(props) {
-  console.log('[vue] props from main framework', props);
+  console.log('[vue] props from main framework', props)
+  actions.setActions(props)
   render(props);
 }
 export async function unmount() {

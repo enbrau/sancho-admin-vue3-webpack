@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css'
 import store from '@/store'
 import { PERM_KEYS } from '@/consts'
 import Layout from '@/layout'
+import i18n from '@/i18n'
 
 let scannedRoutes = []
 const moduleFiles = require.context('./modules/', false, /\.js$/)
@@ -30,7 +31,8 @@ export const routes = [
     children: [
       {
         path: '/redirect/:path*',
-        component: () => import('@/views/redirect.vue')
+        component: () => import('@/views/redirect.vue'),
+        hidden: true
       }
     ]
   },
@@ -47,17 +49,19 @@ export const routes = [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard'),
-        meta: { title: 'common.menus.Dashboard', icon: 'home-fill', affix: true, noCache: true }
+        meta: { title: 'common.menus.Dashboard', icon: 'home-fill', affix: true, noCache: true, isAnon: true }
       },
       {
         path: '403',
         component: () => import('@/views/error/403.vue'),
-        hidden: true
+        hidden: true,
+        meta: { title: 'common.menus.Error403', icon: 'error-fill', affix: false, noCache: true, isAnon: true }
       },
       {
         path: '404',
         component: () => import('@/views/error/404.vue'),
-        hidden: true
+        hidden: true,
+        meta: { title: 'common.menus.Error404', icon: 'error-fill', affix: false, noCache: true, isAnon: true }
       },
     ]
   },
@@ -99,7 +103,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // Update Routes
-  await store.dispatch('subscriber/updateRoutes', routes)
+  await store.dispatch('layout/updateMenus', { routes, perms: store.state.subscriber.perms })
 
   // for (const route of accessibleRoutes) {
   //   router.addRoute(route)
@@ -136,42 +140,59 @@ export function hasPermission(actionKey) {
 }
 
 export function filterRoutes(routes, { perms }) {
-  const res = []
+  // const res = []
 
-  routes.forEach(route => {
-    const tmp = { ...route }
+  // routes.forEach(route => {
+  //   const tmp = { ...route }
 
-    if (!(tmp.isMenu) || (tmp.isMenu && hasPermission(tmp.meta ? tmp.meta.title : '_' )) || tmp.isAnon) {
-      if (tmp.children) {
-        tmp.children = filterRoutes(tmp.children, { perms })
-      }
-      res.push(tmp)
-    }
-  })
+  //   if (tmp.hidden || (!tmp.hidden && hasPermission(tmp.meta ? tmp.meta.title : '_' )) || tmp.isAnon) {
+  //     if (tmp.children) {
+  //       tmp.children = filterRoutes(tmp.children, { perms })
+  //     }
+  //     res.push(tmp)
+  //   }
+  // })
 
-  return res
+  // return res
+  return routes
 }
 
 export function filterMenus(routes) {
-  const res = []
-
-  routes.forEach(route => {
+  const filterMenu = function(route) {
     const tmp = { ...route }
     tmp.id = tmp.meta && tmp.meta.title ? tmp.meta.title : tmp.path
     tmp.name = i18n.global.t(tmp.meta && tmp.meta.title ? tmp.meta.title : tmp.path)
 
-    if (tmp.children) {
-      tmp.children = filterMenus(tmp.children)
-    }
-
-    if (tmp.isMenu || tmp.path === 'dashboard') {
-      res.push(tmp)
-    } else if (tmp.children) {
-      tmp.children.forEach(tmpChild => {
-        if (tmpChild.isMenu || tmpChild.path === 'dashboard') {
-          res.push(tmpChild)
+    const isAnon = tmp.meta ? tmp.meta.isAnon : false
+    if (!route.hidden && (isAnon || hasPermission(tmp.meta ? tmp.meta.title : '_') || route.path === 'dashboard')) {
+      if (route.children) {
+        tmp.children = []
+        for (let i = 0; i < route.children.length; i++) {
+          const child = filterMenu(route.children[i])
+          if (child) {
+            tmp.children = tmp.children.concat(child)
+          }
         }
-      })
+      }
+      return [ tmp ]
+    } else if (tmp.children) {
+      let res = []
+      for (let i = 0; i < tmp.children.length; i++) {
+        const child = filterMenu(tmp.children[i])
+        if (child) {
+          res = res.concat(child)
+        }
+      }
+      return res
+    }
+    return []
+  }
+
+  let res = []
+  routes.forEach(route => {
+    const tmp = filterMenu(route)
+    if (tmp) {
+      res = res.concat(tmp)
     }
   })
 

@@ -1,6 +1,5 @@
-import { SESSION_STORAGE_KEYS, PERM_KEYS } from '@/consts'
+import { SESSION_STORAGE_KEYS } from '@/consts'
 import { getCookie, setCookie, expireActiveCookies } from '@/utils'
-import { filterRoutes } from '@/router'
 import settings from '@/../settings'
 import $api from '@/api'
 
@@ -9,15 +8,14 @@ const SET_SID     = 'SET_SID'
 const SET_PROFILE = 'SET_PROFILE'
 const SET_PERMS   = 'SET_PERMS'
 const SET_ROLES   = 'SET_ROLES'
-const SET_ROUTES  = 'SET_ROUTES'
+const SET_STATE   = 'SET_STATE'
 
 const state = {
   token: null,
   sid: null,
   profile: null,
   perms: [],
-  roles: [],
-  routes: []
+  roles: []
 }
 
 const mutations = {
@@ -36,8 +34,8 @@ const mutations = {
   [SET_PROFILE]: (state, profile) => {
     state.profile = profile
   },
-  [SET_ROUTES]: (state, routes) => {
-    state.routes = routes
+  [SET_STATE]: (state, newState) => {
+    Object.assign(state, newState)
   }
 }
 
@@ -125,18 +123,8 @@ const actions = {
       })
     })
   },
-  updateRoutes({ state, commit }, routes) {
-    return new Promise(resolve => {
-      const perms = state.perms
-      let accessibleRoutes
-      if (perms.includes(PERM_KEYS.SUPER_ADMIN)) {
-        accessibleRoutes = routes
-      } else {
-        accessibleRoutes = filterRoutes(routes, { perms: perms })
-      }
-      commit(SET_ROUTES, accessibleRoutes)
-      resolve(accessibleRoutes)
-    })
+  setState({ commit }, newState) {
+    commit(SET_STATE, newState)
   }
 }
 

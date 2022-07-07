@@ -29,6 +29,8 @@ import SideBar from './components/SideBar/index.vue'
 import TagBar from './components/TagBar/index.vue'
 import { markRaw } from '@vue/reactivity'
 import settings from '@/../settings.js'
+import { hasPermission } from '@/router'
+import Page403 from '@/views/error/403.vue'
 
 export default {
   components: { SideBar, NavBar, TagBar },
@@ -47,6 +49,13 @@ export default {
   },
   methods: {
     decideComponent(component) {
+      // 权限判断
+      const route = this.$route.matched[this.$route.matched.length - 1]
+      const key = route.meta ? route.meta.title : '_'
+      const isAnon = route.meta ? route.meta.isAnon : false
+      if (!isAnon && !hasPermission(key)) {
+        return markRaw(Page403)
+      }
       // 解决嵌套路由问题
       if (settings.useNestedRoute || (this.$route.meta && !this.$route.meta.nested)) {
         return markRaw(this.$route.matched[this.$route.matched.length - 1].components.default)

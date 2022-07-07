@@ -4,30 +4,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
-const packageName = require('./package.json').name
 
 const env = require('dotenv').config({path: __dirname + `/.env.${process.env.NODE_ENV}`})
 const settings = require('./settings.js')
 
 const mockServer = require('./mock-server.js')
 
-const subApps = require('./sub-apps.js')
-const subAppProxy = {}
-for (const subApp of subApps) {
-  subAppProxy[subApp.contextPath] = {
-    target: subApp.devEntry.replace(subApp.contextPath, ''),
-    changeOrigin: true,
-    ws: true,
-    secure: false,
-    logLevel: 'debug'
-  }
-}
+const packageInfo = require('./package.json')
+const packageName = packageInfo.name
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    publicPath: '/',
-    path: path.resolve(__dirname, './dist'),
+    publicPath: settings.publicPath,
+    path: path.resolve(__dirname, './dist' + settings.publicPath),
     library: `${packageName}-[name]`,
     libraryTarget: 'umd',
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
@@ -128,7 +118,7 @@ module.exports = {
   devServer: {
     static: __dirname + '/public/',
     host: '127.0.0.1',
-    port: 9527,
+    port: 10001,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
@@ -139,7 +129,6 @@ module.exports = {
       return middlewares
     },
     proxy: {
-      ...subAppProxy,
       [process.env.CONTEXT_PATH]: {
         target: process.env.HOST,
         changeOrigin: true,

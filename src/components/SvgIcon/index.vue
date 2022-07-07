@@ -16,15 +16,11 @@ export default {
     className: {
       type: String,
       default: ''
-    },
-    external: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {
     isExternal() {
-      return this.external || /^(https?:|mailto:|tel:)/.test(this.iconClass)
+      return /^(https?:|mailto:|tel:)/.test(this.iconClass) || this.iconClass.indexOf('.svg') > 0
     },
     iconName() {
       return `#icon-${this.iconClass}`
@@ -36,10 +32,15 @@ export default {
         return 'svg-icon'
       }
     },
+    svgUrl() {
+      return this.iconClass
+    },
     styleExternalIcon() {
       return {
-        mask: `url(${this.iconClass}) no-repeat 50% 50%`,
-        '-webkit-mask': `url(${this.iconClass}) no-repeat 50% 50%`
+        '-webkit-mask-image': `url(${this.svgUrl})`,
+        '-webkit-mask-size': `100% 100%`,
+        'mask': `url(${this.svgUrl})`,
+        'mask-size': `100% 100%`
       }
     }
   }

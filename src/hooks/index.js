@@ -57,3 +57,5 @@ afterRouteHookFiles.keys().forEach((key) => {
   afterRouteHooks[moduleName] = afterRouteHookFiles(key).default
 })
 export const afterRouteHook = createHook(new AsyncParallelHook(['route']), 'afterRoute',  afterRouteHooks, 'tapPromise')
+
+export default { afterRouteHook, beforeRouteHook, errorHook, preloadHook, requestHook, responseHook }

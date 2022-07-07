@@ -10,6 +10,10 @@ If you want to use Vite, you can also see [Sancho Seed Vue3 Vite](https://github
 
 ## Features
 
+- Micro App Available  
+
+  You can build you application without even knowing your application will be deployed independantly or as an micro application which you can open in another application.  
+
 - Common Function and Libraries Ready
 
   Vue Router, Vuex, I18n, Axios, Mock Server are installed and configured. Libraries like dayjs or lodash are loaded as Vue3 global properties.
@@ -38,8 +42,11 @@ npm run dev
 # Run for development with proxy server
 npm run dev:online
 
-# Build for Production
+# Build for Production:
+# 1. Deploy as independant app
 npm build
+# 2. Deploy as micro app
+npm build:micro-app
 ```
 
 ## Project Structure

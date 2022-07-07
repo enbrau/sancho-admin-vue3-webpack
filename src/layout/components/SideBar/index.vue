@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { deepClone } from '@/utils'
 import settings from '@/../settings'
 import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
@@ -45,20 +44,7 @@ export default {
       return path
     },
     menus() {
-      const menus = []
-      const routes = deepClone(this.$store.state.subscriber.routes)
-      routes.forEach(route => {
-        if (route.isMenu || route.path === 'dashboard') {
-          menus.push(route)
-        } else if (route.children) {
-          for (const croute of route.children) {
-            if (croute.isMenu || croute.path === 'dashboard') {
-              menus.push(croute)
-            }
-          }
-        }
-      })
-      return menus
+      return this.$store.state.layout.menus
     }
   }
 }
