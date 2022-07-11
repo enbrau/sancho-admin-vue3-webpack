@@ -91,8 +91,8 @@ export default {
         password: null
       },
       formRule: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }]
+        username: [{ required: true, trigger: 'blur', message: this.$t('common.tips.field_is_required', { 'field': this.$t('common.username') }) }],
+        password: [{ required: true, trigger: 'blur', message: this.$t('common.tips.field_is_required', { 'field': this.$t('common.password') }) }]
       },
       showPassword: false,
       showCapsTooltip: false,
