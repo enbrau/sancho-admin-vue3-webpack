@@ -127,7 +127,7 @@ body {
     position: relative;
 
     .view-body-wrapper {
-      padding: 15px;
+      padding: 20px;
 
       &.adapt-height {
         overflow: auto;
