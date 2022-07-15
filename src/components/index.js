@@ -1,4 +1,5 @@
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import Pagination from '@/components/Pagination/index.vue'
 
 const moduleFiles = require.context('@/icons', false, /\.svg$/)
 const requireAll = requireContext => requireContext.keys().map(requireContext)
@@ -14,5 +15,6 @@ export const icons = iconNames
 export default {
   install: (app) => {
     app.component('SvgIcon', SvgIcon)
+    app.component('Pagination', Pagination)
   }
 }
