@@ -86,6 +86,7 @@ export default {
     .right-menu-item {
       display: inline-block;
       padding: 0 10px;
+      margin: 0;
       height: 100%;
       font-size: 18px;
       line-height: var(--sancho-navbar-height);
