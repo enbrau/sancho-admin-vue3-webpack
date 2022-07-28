@@ -74,6 +74,7 @@ export default {
   }
 
   .scrollbar-wrapper {
+    padding-right: 10px;
     overflow-x: hidden !important;
   }
 
@@ -116,8 +117,18 @@ export default {
   .sidebar-container {
     width: var(--sancho-sidebar-width-collapse) !important;
 
+    .scrollbar-wrapper {
+      padding-right: 0;
+    }
+
     .el-menu {
       background-color: transparent;
+
+      .el-menu-item {
+        .svg-external-icon.svg-icon {
+          margin-right: 10px !important;
+        }
+      }
     }
 
     .submenu-title-noDropdown {
@@ -170,6 +181,14 @@ export default {
 
   .el-menu--collapse .el-menu .el-sub-menu {
     min-width: var(--sancho-sidebar-width) !important;
+  }
+}
+
+.el-popper {
+  .el-menu--vertical.el-menu--popup-container {
+    .svg-icon {
+      margin-right: 10px;
+    }
   }
 }
 
