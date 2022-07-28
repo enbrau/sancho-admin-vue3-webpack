@@ -4,6 +4,7 @@ const settings = require('./settings')
 const lodash = require('lodash')
 
 const fs = require('fs')
+const path = require('path')
 const { zip, COMPRESSION_LEVEL } = require('zip-a-folder')
 
 import('./src/router/routes.mjs')
@@ -22,14 +23,16 @@ import('./src/router/routes.mjs')
       entries: [],
     }
 
-    const convertRouteToEntry = function(route) {
+    const convertRouteToEntry = function(route, parentRoutePath) {
       const entry = {
         id: uniqueId(),
         title: lodash.get(route, 'meta.fallbackTitle', '') || lodash.get(route, 'meta.title', ''),
         remark: lodash.get(route, 'meta.fallbackRemark', '') || lodash.get(route, 'meta.remark', ''),
         key: route.name || lodash.get(route, 'meta.key', '') || lodash.get(route, 'meta.title', ''),
-        routePath: route.path,
-        icon: lodash.get(route, 'meta.icon', 'micro-app'),
+        routePath: (!route.path.startsWith('/') && parentRoutePath ?  parentRoutePath + '/' : '') + route.path,
+        icon: path.resolve(settings.publicPath + '/icons/' + lodash.get(route, 'meta.icon', 'micro-app') + '.svg'),
+        originIcon: lodash.get(route, 'meta.icon', 'micro-app'),
+        redirect: route.redirect,
         isMenu: !route.hidden,
         isShortCut: !!lodash.get(route, 'meta.isShortCut', false),
         isNavBarShortCut: !!lodash.get(route, 'meta.isNavBarShortCut', false),
@@ -40,10 +43,26 @@ import('./src/router/routes.mjs')
       if (route.children && route.children.length > 0) {
         for (let i = 0; i < route.children.length; i++) {
           const childRoute = route.children[i]
-          const childEntry = convertRouteToEntry(childRoute)
+          const childEntry = convertRouteToEntry(childRoute, entry.routePath)
           entry.children.push(childEntry)
         }
       }
+
+      // try copy svg icon files from src/icons/ to ~/icons/
+      if (entry.originIcon) {
+        const iconDirPath = path.resolve(__dirname + '/dist/' + settings.publicPath + '/icons')
+        if (!fs.existsSync(iconDirPath)) {
+            fs.mkdirSync(iconDirPath)
+            console.log('Target icon dir created: ', iconDirPath)
+        }
+        const sourceIconFile = path.resolve(__dirname + '/src/icons/' + entry.originIcon + '.svg')
+        const targetIconFile = path.resolve(__dirname + '/dist/' + settings.publicPath + '/icons/' + entry.originIcon + '.svg')
+        if (fs.existsSync(sourceIconFile) && !fs.existsSync(targetIconFile)) {
+          fs.copyFileSync(sourceIconFile, targetIconFile)
+          console.log('Copy icon file: ', sourceIconFile, '->', targetIconFile)
+        }
+      }
+      
       return entry
     }
 
