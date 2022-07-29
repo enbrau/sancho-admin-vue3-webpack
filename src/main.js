@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import $router, { routes } from '@/router'
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createMemoryHistory } from 'vue-router'
 import store from '@/store'
 import i18n from '@/i18n'
 import components from '@/components'
@@ -23,13 +23,16 @@ let instance = null
 let router = null
 let history = null
 
+let mode = 'history'
+let routePath = null
+
 function render(props = {}) {
   const { container } = props
 
   if (!window.__POWERED_BY_QIANKUN__) {
     router = $router
   } else {
-    history = createWebHashHistory()
+    history = mode === 'containered' ? createMemoryHistory() : createWebHashHistory()
     router = createRouter({
       history,
       routes
@@ -64,6 +67,9 @@ function render(props = {}) {
     } else {
       document.getElementsByClassName('loading-container')[0].style.display = 'none'
     }
+    if (routePath) {
+      router.push(routePath)
+    }
   })
 }
 
@@ -81,6 +87,8 @@ export async function bootstrap() {
 export async function mount(props) {
   console.log('[vue] props from main framework', props)
   actions.setActions(props)
+  mode = props.ma || 'history'
+  routePath = props.routePath || null
   render(props);
 }
 export async function unmount() {
