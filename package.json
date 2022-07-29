@@ -28,6 +28,7 @@
     "mathjs": "^10.6.1",
     "nprogress": "^0.2.0",
     "path-to-regexp": "2.4.0",
+    "qiankun": "^2.7.4",
     "tapable": "^2.2.1",
     "vue": "^3.2.36",
     "vue-i18n": "^9.1.10",

@@ -1,5 +1,6 @@
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import Pagination from '@/components/Pagination/index.vue'
+import MicroApp from '@/components/MicroApp/index.vue'
 
 const moduleFiles = require.context('@/icons', false, /\.svg$/)
 const requireAll = requireContext => requireContext.keys().map(requireContext)
@@ -16,5 +17,6 @@ export default {
   install: (app) => {
     app.component('SvgIcon', SvgIcon)
     app.component('Pagination', Pagination)
+    app.component('MicroApp', MicroApp)
   }
 }
