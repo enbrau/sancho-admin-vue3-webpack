@@ -153,4 +153,13 @@ export default {
     transition: .3s;
   }
 }
+
+.sancho-user-menu {
+  .el-dropdown-menu__item {
+    span {
+      display: block;
+      flex-grow: 1;
+    }
+  }
+}
 </style>
