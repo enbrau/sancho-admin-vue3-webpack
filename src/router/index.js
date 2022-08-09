@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css'
 import store from '@/store'
 import { PERM_KEYS } from '@/consts'
 import Layout from '@/layout'
-import i18n from '@/i18n'
+import lodash from 'lodash'
 
 let scannedRoutes = []
 const moduleFiles = require.context('./modules/', false, /\.js$/)
@@ -129,7 +129,19 @@ router.afterEach(async (route) => {
 
 export default router
 
-export function hasPermission(actionKey) {
+export function hasPermission(route) {
+  const isAnon = route.meta ? route.meta.isAnon : false
+  const actionKey = route.name || route.meta?.title || '_'
+  const perms = store.state.subscriber.perms
+
+  if (isAnon || !actionKey || perms.includes(PERM_KEYS.SUPER_ADMIN)) {
+    return true
+  }
+
+  return perms.includes(actionKey)
+}
+
+export function isPermitted(actionKey) {
   const perms = store.state.subscriber.perms
 
   if (!actionKey || perms.includes(PERM_KEYS.SUPER_ADMIN)) {
@@ -140,31 +152,25 @@ export function hasPermission(actionKey) {
 }
 
 export function filterRoutes(routes, { perms }) {
-  // const res = []
-
-  // routes.forEach(route => {
-  //   const tmp = { ...route }
-
-  //   if (tmp.hidden || (!tmp.hidden && hasPermission(tmp.meta ? tmp.meta.title : '_' )) || tmp.isAnon) {
-  //     if (tmp.children) {
-  //       tmp.children = filterRoutes(tmp.children, { perms })
-  //     }
-  //     res.push(tmp)
-  //   }
-  // })
-
-  // return res
+  // no logic here
   return routes
 }
 
-export function filterMenus(routes) {
+export function filterMenus(routes, ignorePermission, blacklist) {
+  const isMenu = function(route) {
+    if (!route.hidden) {
+      if (blacklist && lodash.indexOf(blacklist, route.path) >= 0) {
+        return false
+      }
+      return true
+    }
+    return false
+  }
   const filterMenu = function(route) {
     const tmp = { ...route }
-    tmp.id = tmp.meta && tmp.meta.title ? tmp.meta.title : tmp.path
-    tmp.name = i18n.global.t(tmp.meta && tmp.meta.title ? tmp.meta.title : tmp.path)
-
-    const isAnon = tmp.meta ? tmp.meta.isAnon : false
-    if (!route.hidden && (isAnon || hasPermission(tmp.meta ? tmp.meta.title : '_') || route.path === 'dashboard')) {
+    tmp.id    = tmp.name || tmp.id || tmp.meta?.title || tmp.path || lodash.uniqueId()
+    tmp.name  = tmp.name || tmp.meta?.title || tmp.path || lodash.uniqueId()
+    if (isMenu(tmp) && (ignorePermission || tmp.meta?.isAnon || hasPermission(tmp))) {
       if (route.children) {
         tmp.children = []
         for (let i = 0; i < route.children.length; i++) {

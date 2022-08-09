@@ -21,6 +21,7 @@ export default {
       console.log('[Sancho][MicroApp] Main App state changed: ', state)
       this.$store.dispatch('app/setState', state.app)
       this.$store.dispatch('subscriber/setState', state.subscriber)
+      this.$store.dispatch('microApps/setState', state.microApps)
     }, true)
   },
   methods: {

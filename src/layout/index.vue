@@ -51,9 +51,7 @@ export default {
     decideComponent(component) {
       // 权限判断
       const route = this.$route.matched[this.$route.matched.length - 1]
-      const key = route.meta ? route.meta.title : '_'
-      const isAnon = route.meta ? route.meta.isAnon : false
-      if (!isAnon && !hasPermission(key)) {
+      if (!hasPermission(route)) {
         return markRaw(Page403)
       }
       // 解决嵌套路由问题

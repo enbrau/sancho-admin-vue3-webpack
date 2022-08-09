@@ -4,20 +4,20 @@ function emptyAction() {
 
 class Actions {
   actions = {
-      onGlobalStateChange: emptyAction,
-      setGlobalState: emptyAction,
+    onGlobalStateChange: emptyAction,
+    setGlobalState: emptyAction,
   }
 
   setActions(actions) {
-      this.actions = actions;
+    this.actions = actions
   }
 
   onGlobalStateChange(...args) {
-      return this.actions.onGlobalStateChange(...args);
+    return this.actions.onGlobalStateChange(...args)
   }
 
   setGlobalState(...args) {
-      return this.actions.setGlobalState(...args);
+    return this.actions.setGlobalState(...args)
   }
 }
 

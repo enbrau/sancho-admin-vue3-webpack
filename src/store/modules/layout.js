@@ -172,7 +172,7 @@ const actions = {
       } else {
         accessibleRoutes = filterRoutes(routes, { perms })
       }
-      const accessibleMenus = filterMenus(accessibleRoutes, { perms })
+      const accessibleMenus = filterMenus(accessibleRoutes, true)
       commit(SET_MENUS, accessibleMenus)
       resolve(accessibleMenus)
     })
