@@ -16,5 +16,8 @@ export default {
   logout: '注销',
   login: '登陆',
   username: '用户名',
-  password: '密码'
+  password: '密码',
+  tip: '提示',
+  confirm: '确认',
+  cancel: '取消'
 }

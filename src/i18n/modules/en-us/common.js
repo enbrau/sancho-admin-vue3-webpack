@@ -16,6 +16,8 @@ export default {
   logout: 'Logout',
   login: 'Login',
   username: 'User Name',
-  password: 'Password'
-
+  password: 'Password',
+  tip: 'Alert',
+  confirm: 'Confirm',
+  cancel: 'Cancel'
 }
