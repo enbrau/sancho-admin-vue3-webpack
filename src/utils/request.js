@@ -86,6 +86,9 @@ export default service
 
 export function getBaseUrl() {
   let baseUrl = process.env.CONTEXT_PATH === 'PATHNAME' ? window.location.pathname : process.env.CONTEXT_PATH
+  if (window.__POWERED_BY_QIANKUN__ && settings.microApp?.preferMainContextPath) {
+    baseUrl = window.__SANCHO_CONTEXT_PATH__ || baseUrl 
+  }
   if (baseUrl.length > 0) {
     const paths = baseUrl.split('/')
     let temp = ''
