@@ -1,6 +1,7 @@
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import Pagination from '@/components/Pagination/index.vue'
 import MicroApp from '@/components/MicroApp/index.vue'
+import DashboardPanel from '@/components/DashboardPanel/index.vue'
 
 const moduleFiles = require.context('@/icons', false, /\.svg$/)
 const requireAll = requireContext => requireContext.keys().map(requireContext)
@@ -18,5 +19,6 @@ export default {
     app.component('SvgIcon', SvgIcon)
     app.component('Pagination', Pagination)
     app.component('MicroApp', MicroApp)
+    app.component('DashboardPanel', DashboardPanel)
   }
 }
