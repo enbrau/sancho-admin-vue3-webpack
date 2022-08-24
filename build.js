@@ -47,6 +47,9 @@ import('./src/router/routes.mjs')
           entry.children.push(childEntry)
         }
       }
+      if (route?.meta.widget) {
+        entry.widget = route?.meta.widget
+      }
 
       // try copy svg icon files from src/icons/ to ~/icons/
       if (entry.originIcon) {
