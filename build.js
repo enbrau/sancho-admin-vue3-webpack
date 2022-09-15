@@ -13,11 +13,11 @@ import('./src/router/routes.mjs')
 
     const pack = {
       name: settings.title,
-      key: packageInfo.name,
+      key: settings.name,
       activeRule: '/#/' + settings.publicPath.replace('/', ''),
       container: '#sancho-subapp-container',
       remark: packageInfo.description,
-      version: packageInfo.version,
+      version: settings.version,
       entry: settings.publicPath,
       isPublic: 'N',
       entries: [],

@@ -10,6 +10,16 @@ module.exports = {
   title: 'Sancho Admin Vue3 (Webpack)',
 
   /**
+   * @type {string} Application Name
+   */
+  name: 'app-name',
+
+  /**
+   * @type {string} Application Version
+   */
+  version: '1.0.0',
+
+  /**
    * @type {string} TimeZone
    * @description Application timeZone, null means use browser.
    */

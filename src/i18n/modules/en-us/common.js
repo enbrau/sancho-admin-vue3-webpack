@@ -19,5 +19,6 @@ export default {
   password: 'Password',
   tip: 'Alert',
   confirm: 'Confirm',
-  cancel: 'Cancel'
+  cancel: 'Cancel',
+  about: 'About'
 }

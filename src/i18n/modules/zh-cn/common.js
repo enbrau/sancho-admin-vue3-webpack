@@ -19,5 +19,6 @@ export default {
   password: '密码',
   tip: '提示',
   confirm: '确认',
-  cancel: '取消'
+  cancel: '取消',
+  about: '关于'
 }

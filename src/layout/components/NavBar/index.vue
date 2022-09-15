@@ -17,6 +17,12 @@
           <el-dropdown-menu class="sancho-user-menu">
             <component :is="$key" v-for="$key in actions" :key="$key" />
             <el-divider style="margin: 0px;"></el-divider>
+            <el-dropdown-item v-if="showAboutLink">
+              <span style="display:block;" @click="showAbout = true">
+                <svg-icon icon-class="about" />
+                {{ $t('common.about') }}
+              </span>
+            </el-dropdown-item>
             <el-dropdown-item>
               <span style="display:block;" @click="logout">
                 <svg-icon icon-class="exit" />
@@ -28,6 +34,16 @@
       </el-dropdown>
     </div>
   </div>
+  <el-dialog v-model="showAbout" :width="320" append-to-body>
+    <template #header>
+      <svg-icon icon-class="about" />
+      {{ $t('common.about') }}
+    </template>
+    <div style="text-align: center">
+      <img :src="logo" style="width: 60%;" /><br>
+      <span style="font-size: 12px; font-family: var(--mono-font)">Powered By EBStudio MAF-{{version}}-{{environment}}</span>
+    </div>
+  </el-dialog>
 </template>
 
 <script>
@@ -35,16 +51,31 @@ import Breadcrumb from './Breadcrumb.vue'
 import tools from './tools.js'
 import actions from './actions.js'
 import { ElLoading } from 'element-plus'
+import packageInfo from '@/../package.json'
+import settings from '@/../settings.js'
 
 export default {
   components: { Breadcrumb, ...tools, ...actions },
   data() {
     return {
       tools,
-      actions
+      actions,
+      showAbout: false
     }
   },
   computed: {
+    showAboutLink() {
+      return settings.layout?.showAbout
+    },
+    logo() {
+      return './logo.png'
+    },
+    version() {
+      return packageInfo.version
+    },
+    environment() {
+      return window.__POWERED_BY_QIANKUN__ ? 'S' : 'M'
+    },
     isSideBarCollapse() {
       return this.$store.state.app.sidebar === 'collapse'
     }
