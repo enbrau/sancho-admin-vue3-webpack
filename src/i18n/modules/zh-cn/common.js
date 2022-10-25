@@ -5,6 +5,7 @@ export default {
     Error403: '错误 403'
   },
   tips: {
+    caps_lock_is_on: '大写锁定已开启！',
     logging_out: '正在注销...',
     page_not_found: '夭寿啦，页面不见啦！',
     page_not_found_solutions: '如果您坚持，可以联系管理员：',

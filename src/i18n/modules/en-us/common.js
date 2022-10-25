@@ -5,6 +5,7 @@ export default {
     Error403: 'Error 403'
   },
   tips: {
+    caps_lock_is_on: 'Caps Lock is on!',
     logging_out: 'Logging out ...',
     page_not_found: 'Sorry, page not found!',
     page_not_found_solutions: 'You can call tech support: ',
