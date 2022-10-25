@@ -5,6 +5,8 @@ import store from '@/store'
 import i18n from '@/i18n'
 import components from '@/components'
 
+import $EventBus from './bus'
+
 import App from './App.vue'
 import { preloadHook } from './hooks'
 
@@ -44,6 +46,8 @@ function render(props = {}) {
     .use(store)
     .use(i18n)
     .use(components)
+
+  instance.config.globalProperties['$EventBus'] = $EventBus
 
   for(let iconName in ElIconModules){
     instance.component(iconName, ElIconModules[iconName])
