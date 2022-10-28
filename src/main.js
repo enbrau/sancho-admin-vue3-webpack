@@ -79,21 +79,21 @@ function render(props = {}) {
 
 // run as independent application
 if (!window.__POWERED_BY_QIANKUN__) {
-  render();
+  render()
 }
 
 // run as micro application
 import actions from '@/store/actions.js'
 
 export async function bootstrap() {
-  console.log('[vue] vue app bootstraped');
+  console.log('[vue] vue app bootstraped')
 }
 export async function mount(props) {
   console.log('[vue] props from main framework', props)
   actions.setActions(props)
   mode = props.ma || 'history'
   routePath = props.routePath || null
-  render(props);
+  render(props)
 }
 export async function unmount() {
   instance.unmount()
