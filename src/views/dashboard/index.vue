@@ -15,7 +15,7 @@
     <!-- </el-affix> -->
     <draggable v-if="widgets && widgets.length>0" v-model="widgets" item-key="id" handle=".el-card__header" class="el-row" style="margin: -7.5px;">
       <template #item="{index}">
-        <dashboard-panel v-model="widgets[index]" style="padding: 7.5px;"> 
+        <dashboard-panel v-model="widgets[index]" style="padding: 7.5px;">
           <template #actions>
             <el-dropdown-menu>
               <el-dropdown-item style="text-align: center" @click="removeWidget(index)">
@@ -114,12 +114,16 @@ export default {
     await this.refreshRealTimeWidgets()
     this.$nextTick(() => {
       this.loaded = true
-    }) 
+    })
   },
   methods: {
     async refreshRealTimeWidgets() {
       this.loading = true
-      this.widgets = await loadRealTimeWidgets(true)
+      try {
+        this.widgets = await loadRealTimeWidgets(true)
+      } catch (e) {
+        this.widgets = []
+      }
       this.loading = false
     },
     isHidden(widget) {
@@ -145,7 +149,7 @@ export default {
     },
     async savePreferance() {
       if (!this.loaded) {
-        return 
+        return
       }
       if (this.timer) {
         clearTimeout(this.timer)
