@@ -13,36 +13,36 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input 
-          ref="username" 
-          size="small"
-          v-model="formData.username" 
-          :placeholder="$t('common.username')" 
-          name="username" 
-          type="text" 
-          tabindex="1" 
-          autocomplete="on" 
-          @keyup.enter="handleLogin"
+        <el-input
+            ref="username"
+            size="small"
+            v-model="formData.username"
+            :placeholder="$t('common.username')"
+            name="username"
+            type="text"
+            tabindex="1"
+            autocomplete="on"
+            @keyup.enter="handleLogin"
         />
       </el-form-item>
 
-      <el-tooltip v-model:visible="showCapsTooltip" :content="$t('common.tips.caps_lock_is_on')" placement="right" manual>
+      <el-tooltip :visible="showCapsTooltip" :content="$t('common.tips.caps_lock_is_on')" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="key" />
           </span>
-          <el-input 
-            ref="password"
-            size="small"
-            v-model="formData.password"
-            :type="showPassword ? '' : 'password'"
-            :placeholder="$t('common.password')"
-            name="password"
-            tabindex="2"
-            autocomplete="on"
-            @keyup="checkCapslock"
-            @blur="showCapsTooltip = false"
-            @keyup.enter="handleLogin"
+          <el-input
+              ref="password"
+              size="small"
+              v-model="formData.password"
+              :type="showPassword ? '' : 'password'"
+              :placeholder="$t('common.password')"
+              name="password"
+              tabindex="2"
+              autocomplete="on"
+              @keyup="checkCapslock"
+              @blur="showCapsTooltip = false"
+              @keyup.enter="handleLogin"
           />
           <span class="show-pwd" @click="togglePassword">
             <svg-icon :icon-class="showPassword ? 'eye' : 'eye-close'" />
@@ -51,11 +51,11 @@
       </el-tooltip>
 
       <el-button
-        size="default"
-        :loading="loading"
-        type="primary"
-        style="width:100%; margin-bottom:30px;"
-        @click.prevent="handleLogin"
+          size="default"
+          :loading="loading"
+          type="primary"
+          style="width:100%; margin-bottom:30px;"
+          @click.prevent="handleLogin"
       >
         {{ $t('common.login') }}
       </el-button>
@@ -157,16 +157,16 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('subscriber/login', formData)
-            .then(() => {
-              if (this.redirect && this.redirect.startsWith('http')) {
-                window.location.href = this.redirect
-              }
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-            })
-            .catch((e) => {
-              console.log(e)
-              this.loading = false
-            })
+              .then(() => {
+                if (this.redirect && this.redirect.startsWith('http')) {
+                  window.location.href = this.redirect
+                }
+                this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              })
+              .catch((e) => {
+                console.log(e)
+                this.loading = false
+              })
         } else {
           return false
         }
@@ -197,12 +197,12 @@ $cursor: #fff;
   overflow: hidden;
 
   .login-container--background {
-    position: fixed; 
-    width: 100%; 
-    height: 100%; 
-    overflow: hidden; 
-    background: url('login.jpg'); 
-    background-repeat: repeat-y; 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: url('login.jpg');
+    background-repeat: repeat-y;
     background-size: 100% auto;
   }
 
@@ -314,7 +314,6 @@ $cursor: #fff;
         box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
-      
     }
   }
 
