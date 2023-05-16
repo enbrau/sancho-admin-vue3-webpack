@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" class="view-body-wrapper adapt-height">
+  <div v-loading="loading" class="view-body-wrapper adapt-height with-padding">
     <!-- <el-affix target=".view-body-wrapper" :offset="105"> -->
     <el-row style="padding-bottom: 10px" :gutter="20">
       <el-col :span="12">

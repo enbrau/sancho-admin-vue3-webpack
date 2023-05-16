@@ -4,12 +4,12 @@
     <div class="view-container">
       <div class="view-head">
         <nav-bar />
-        <tag-bar />
+        <tag-bar v-if="showTags" />
       </div>
       <div class="view-body" :style="{ height: viewBodyHeight }">
         <router-view v-slot="{ Component }">
           <keep-alive>
-            <component :is="decideComponent(Component)" :key="undefined"  />
+            <component :is="decideComponent(Component)" :key="$route.path"  />
           </keep-alive>
         </router-view>
         <div id="sancho-subapp-container"></div>
@@ -35,13 +35,16 @@ import Page403 from '@/views/error/403.vue'
 export default {
   components: { SideBar, NavBar, TagBar },
   computed: {
+    showTags() {
+      return settings.layout.showTags
+    },
     appStatus() {
       return {
         'sidebar-collapse': this.$store.state.app.sidebar === 'collapse'
       }
     },
     viewBodyHeight() {
-      return this.isMicroApp ? '100%' : (this.$store.state.app.windowInnerHeight - 50 - 32 - 10) + 'px'
+      return this.isMicroApp ? '100%' : (this.$store.state.app.windowInnerHeight - 50 - (settings.layout.showTags ? 32 : 0)) + 'px'
     },
     isMicroApp() {
       return window.__POWERED_BY_QIANKUN__
@@ -104,9 +107,10 @@ body {
     }
 
     .view-body {
-      background-color: var(--el-bg-color);
-      border-radius: 10px;
-      margin-right: 10px;
+      background-color: var(--el-bg-color-overlay);
+      border-radius: 0px;
+      margin-right: 0px;
+      overflow: auto;
     }
   }
 
@@ -125,15 +129,24 @@ body {
     position: relative;
 
     .view-body-wrapper {
-      padding: 20px;
+      padding: 0px;
+
+      &.bordered {
+        border-top: 1px solid var(--el-border-color);
+        border-left: 1px solid var(--el-border-color);
+      }
 
       &.adapt-height {
-        overflow: auto;
+        overflow: hidden;
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
+      }
+
+      &.with-padding {
+        padding: 15px;
       }
     }
   }

@@ -15,19 +15,19 @@
                     <el-form-item label="颜色">
                       <el-radio-group v-model="modelValue.color" size="small" fill="var(--el-color-primary-light-3)">
                         <el-radio-button label="none" border>
-                          <svg-icon icon-class="square" style="color: var(--el-color-backgound);" />
+                          <svg-icon icon-class="square" style="background-color: var(--el-bg-color);" />
                         </el-radio-button>
                         <el-radio-button label="primary" border>
-                          <svg-icon icon-class="square" style="color: var(--el-color-primary)" />
+                          <svg-icon icon-class="square" style="background-color: var(--el-color-primary)" />
                         </el-radio-button>
                         <el-radio-button label="danger" border>
-                          <svg-icon icon-class="square" style="color: var(--el-color-danger)" />
+                          <svg-icon icon-class="square" style="background-color: var(--el-color-danger)" />
                         </el-radio-button>
                         <el-radio-button label="warning" border>
-                          <svg-icon icon-class="square" style="color: var(--el-color-warning)" />
+                          <svg-icon icon-class="square" style="background-color: var(--el-color-warning)" />
                         </el-radio-button>
                         <el-radio-button label="success" border>
-                          <svg-icon icon-class="square" style="color: var(--el-color-success)" />
+                          <svg-icon icon-class="square" style="background-color: var(--el-color-success)" />
                         </el-radio-button>
                       </el-radio-group>
                     </el-form-item>

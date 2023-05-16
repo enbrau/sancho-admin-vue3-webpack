@@ -1,7 +1,22 @@
 import store from '@/store'
 import { deepClone, uuid } from '@/utils'
-import { saveObject, fetchObjects } from '@/api/modules/utility.js'
+import request from '@/utils/request'
 import { createRoutes } from '@/router/routes.mjs'
+
+function fetchWidgets () {
+  return request({
+    url: `/ma/widgets`,
+    method: 'get'
+  })
+}
+
+function saveWidget (data) {
+  return request({
+    url: `/ma/widgets`,
+    method: 'post',
+    data: { data }
+  })
+}
 
 export async function loadAvailableWidgets() {
   const routes = createRoutes(null)
@@ -51,7 +66,7 @@ export async function loadPreferanceWidgets() {
     owner: store.state.subscriber.sid,
     fetchContent: true
   }
-  const { data } = await fetchObjects(searchParam)
+  const { data } = await fetchWidgets()
   const obj = data.datalist && data.datalist.length > 0 ? data.datalist[0] : {
     id: uuid(),
     name: store.state.subscriber.profile.nickname + '的仪表盘配置',
@@ -71,7 +86,7 @@ export async function savePreferanceWidgets(widgets) {
   if (store.state.dashboard.preferanceObject) {
     const obj = deepClone(store.state.dashboard.preferanceObject)
     obj.content = JSON.stringify(widgets)
-    await saveObject(obj)
+    await saveWidget(obj)
     await store.dispatch('dashboard/setPreferanceObject', obj)
   }
 }
