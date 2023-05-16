@@ -178,6 +178,7 @@ function md5(a) {
     return O.toLowerCase()
 }
 
+module.exports = function () {
 import('./src/router/routes.mjs')
 .then(({ createRoutes }) => {
     const routes = createRoutes('Layout')
@@ -256,3 +257,4 @@ import('./src/router/routes.mjs')
 .catch(err => {
     console.error(err)
 })
+}

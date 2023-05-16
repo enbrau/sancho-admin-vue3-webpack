@@ -14,8 +14,7 @@
   "scripts": {
     "dev": "webpack serve --mode development --node-env development",
     "dev:online": "webpack serve --mode development --node-env online",
-    "build": "webpack --mode production --node-env production",
-    "build:micro-app": "webpack --mode production --node-env production; node build.js"
+    "build": "webpack --mode production --node-env production"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
@@ -41,6 +40,7 @@
     "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
     "@babel/register": "^7.17.7",
+    "@fiverr/afterbuild-webpack-plugin": "^1.0.0",
     "@vue/compiler-sfc": "^3.2.36",
     "async": "^3.2.4",
     "babel-loader": "^8.2.5",

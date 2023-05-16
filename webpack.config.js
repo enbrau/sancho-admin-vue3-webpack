@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const AfterBuildPlugin = require('@fiverr/afterbuild-webpack-plugin')
+const buildMicroApp = require('./build')
 
 const env = require('dotenv').config({path: __dirname + `/.env.${process.env.NODE_ENV}`})
 const settings = require('./settings.js')
@@ -35,7 +37,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [{
-        from: 'public', 
+        from: 'public',
         to: ''
       }]
     }),
@@ -43,7 +45,8 @@ module.exports = {
       title: settings.title,
       template: 'index.html'
     }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new AfterBuildPlugin(buildMicroApp)
   ],
   resolve: {
     extensions: ['.vue', '.js', '.json'],
@@ -72,7 +75,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               importLoaders: 2,
-              url: false 
+              url: false
             }
           },
           'sass-loader'
@@ -118,7 +121,7 @@ module.exports = {
   devServer: {
     static: __dirname + '/public/',
     host: '127.0.0.1',
-    port: 10001,
+    port: 10002,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
@@ -139,7 +142,7 @@ module.exports = {
         onProxyReq:function (proxyReq, req, res, options) {
           if (req.body) {
             let bodyData = JSON.stringify(req.body);
-            // incase if content-type is application/x-www-form-urlencoded -> we need to change to application/json
+            // in case if content-type is application/x-www-form-urlencoded -> we need to change to application/json
             proxyReq.setHeader('Content-Type','application/json');
             proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
             // stream the content
