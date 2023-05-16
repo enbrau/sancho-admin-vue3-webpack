@@ -2,6 +2,11 @@
 @import './transition.scss';
 @import './animation.scss';
 @import './patch.scss';
+@import './font-ubuntu.scss';
+
+* {
+  font-family: var(--condensed-font);
+}
 
 html {
   height: 100%;
@@ -14,7 +19,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: var(--sans-font);
+  font-family: var(--condensed-font);
 }
 
 *,

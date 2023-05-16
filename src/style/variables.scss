@@ -1,9 +1,8 @@
 :root {
   /* Set sans-serif & mono fonts */
-  --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
-    "Nimbus Sans L", Roboto, Noto, "Segoe UI", Arial, Helvetica,
-    "Helvetica Neue", sans-serif;
-  --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --sans-font: 'Ubuntu',PingFang SC,Noto Sans SC,Microsoft YaHei UI,Microsoft YaHei,Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;
+  --mono-font: 'Ubuntu Mono', monospace,PingFang SC,Noto Sans SC,Microsoft YaHei UI,Microsoft YaHei,Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;
+  --condensed-font: 'Ubuntu Condensed',PingFang SC,Noto Sans SC,Microsoft YaHei UI,Microsoft YaHei,Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;
 
   /* Theme color and size */
   --sancho-logo-background-color: #f0f0f0;
