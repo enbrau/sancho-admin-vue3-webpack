@@ -18,7 +18,7 @@
     "build:micro-app": "webpack --mode production --node-env production; node build.js"
   },
   "dependencies": {
-    "@element-plus/icons": "^0.0.11",
+    "@element-plus/icons-vue": "^2.1.0",
     "axios": "^0.27.2",
     "core-js": "^3.22.6",
     "countup.js": "^2.3.2",

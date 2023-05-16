@@ -16,7 +16,7 @@ import 'element-plus/theme-chalk/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import en from 'element-plus/lib/locale/lang/en'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
-import * as ElIconModules from '@element-plus/icons'
+import * as ElIconModules from '@element-plus/icons-vue'
 
 import '@/utils/handle-window-resize.js'
 import '@/style/index.scss'
@@ -97,7 +97,9 @@ export async function mount(props) {
 }
 export async function unmount() {
   instance.unmount()
-  instance._container.innerHTML = ''
+  if (instance._container) {
+    instance._container.innerHTML = ''
+  }
   instance = null
   router = null
   history.destroy()
