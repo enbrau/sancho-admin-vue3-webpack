@@ -15,7 +15,9 @@ const mockServer = require('./mock-server.js')
 const packageInfo = require('./package.json')
 const packageName = packageInfo.name
 
-module.exports = {
+const version = new Date().getTime()
+
+module.exports = {  
   entry: './src/main.js',
   output: {
     publicPath: settings.publicPath,
@@ -23,8 +25,8 @@ module.exports = {
     library: `${packageName}-[name]`,
     libraryTarget: 'umd',
     chunkLoadingGlobal: `webpackJsonp_${packageName}`,
-    filename: '[name].[contenthash].js',
-    chunkFilename: 'bundle-[name].[contenthash].js',
+    filename: `[name].[contenthash].${version}.js`,
+    chunkFilename: `bundle-[name].[contenthash].${version}.js`,
     assetModuleFilename: '[name][ext]'
   },
   devtool: 'source-map',
