@@ -203,7 +203,7 @@ import('./src/router/routes.mjs')
             remark: lodash.get(route, 'meta.fallbackRemark', '') || lodash.get(route, 'meta.remark', ''),
             key: route.name || lodash.get(route, 'meta.key', '') || lodash.get(route, 'meta.title', ''),
             routePath: (!route.path.startsWith('/') && parentRoutePath ?  parentRoutePath + '/' : '') + route.path,
-            icon: path.resolve(settings.publicPath + '/icons/' + lodash.get(route, 'meta.icon', 'micro-app') + '.svg'),
+            icon: path.join(settings.publicPath + '/icons/', lodash.get(route, 'meta.icon', 'micro-app') + '.svg').split(path.sep).join('/'),
             originIcon: lodash.get(route, 'meta.icon', 'micro-app'),
             redirect: route.redirect,
             isMenu: !route.hidden,
