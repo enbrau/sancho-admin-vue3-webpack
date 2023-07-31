@@ -48,7 +48,11 @@ module.exports = {
       template: 'index.html'
     }),
     new VueLoaderPlugin(),
-    new AfterBuildPlugin(buildMicroApp)
+    new AfterBuildPlugin(() => {
+      if (env.parsed.NODE_ENV === 'production') {
+        buildMicroApp()
+      }
+    })
   ],
   resolve: {
     extensions: ['.vue', '.js', '.json'],
