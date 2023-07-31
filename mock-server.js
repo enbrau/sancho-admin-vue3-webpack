@@ -15,6 +15,14 @@ function registerRoutes(app) {
     }
   })
 
+  for (let i = 0; i < mocks.length; i++) {
+    let api = mocks[i]
+    if (!api.url.startsWith('/mock')) {
+      let api = mocks[i]
+      api.url = '/mock' + api.url
+    }
+  }
+
   let mockLastIndex = 0, mockRoutesLength = 0, mockStartIndex = 0
 
   for (let i = 0; i < mocks.length; i++) {
